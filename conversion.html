@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercice de Conversion</title>
+    <style>
+        table {
+            width: 50%;
+            margin: 20px auto;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid black;
+            padding: 10px;
+            text-align: center;
+        }
+        .correct {
+            background-color: lightgreen;
+        }
+        .incorrect {
+            background-color: lightcoral;
+        }
+    </style>
+</head>
+<body>
+    <h2 style="text-align:center;">Exercice de Conversion</h2>
+    <table id="conversionTable">
+        <thead>
+            <tr>
+                <th>Décimal</th>
+                <th>Binaire</th>
+                <th>Hexadécimal</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+    <div style="text-align:center;">
+        <button onclick="verifierReponses()">Vérifier les réponses</button>
+    </div>
+
+    <script>
+        function genererExercice() {
+            let table = document.getElementById("conversionTable").getElementsByTagName('tbody')[0];
+            table.innerHTML = ""; // Reset du tableau
+            
+            for (let i = 0; i < 10; i++) {
+                let decimal = Math.floor(Math.random() * 255) + 1;
+                let binaire = decimal.toString(2).padStart(8, '0');
+                let hex = decimal.toString(16).toUpperCase();
+                
+                let hiddenIndex = Math.floor(Math.random() * 3);
+                let row = table.insertRow();
+                
+                let cellDec = row.insertCell(0);
+                let cellBin = row.insertCell(1);
+                let cellHex = row.insertCell(2);
+                
+                let values = [decimal, binaire, hex];
+                let inputs = [cellDec, cellBin, cellHex];
+                
+                for (let j = 0; j < 3; j++) {
+                    if (j === hiddenIndex) {
+                        inputs[j].innerHTML = values[j];
+                    } else {
+                        let input = document.createElement("input");
+                        input.type = "text";
+                        input.dataset.correct = values[j];
+                        inputs[j].appendChild(input);
+                    }
+                }
+            }
+        }
+        
+        function verifierReponses() {
+            let inputs = document.querySelectorAll("input");
+            inputs.forEach(input => {
+                if (input.value.toUpperCase() === input.dataset.correct.toUpperCase()) {
+                    input.style.backgroundColor = "lightgreen";
+                } else {
+                    input.style.backgroundColor = "lightcoral";
+                }
+            });
+        }
+        
+        window.onload = genererExercice;
+    </script>
+</body>
+</html>
